@@ -56,16 +56,35 @@ const FetchTodos = () => {
     <>
       <EditTodoModal userId={userID} todoId={modalId} todo={modalData} />
       <div className="mt-10">
-        {todos.map((todos) => (
-          <SingleTodo
-            key={todos.id}
-            userId={userID}
-            todoId={todos.id}
-            todo={todos.todo}
-            todoIsCompleted={todos.isCompleted}
-            handleModal={handleModal}
-          />
-        ))}
+        <h2 className="text-2xl font-bold">Active Todos</h2>
+        {todos.map(
+          (todos) =>
+            !todos.isCompleted && (
+              <SingleTodo
+                key={todos.id}
+                userId={userID}
+                todoId={todos.id}
+                todo={todos.todo}
+                todoIsCompleted={todos.isCompleted}
+                handleModal={handleModal}
+              />
+            )
+        )}
+
+        <h2 className="text-2xl font-bold mt-10">Completed Todos</h2>
+        {todos.map(
+          (todos) =>
+            todos.isCompleted && (
+              <SingleTodo
+                key={todos.id}
+                userId={userID}
+                todoId={todos.id}
+                todo={todos.todo}
+                todoIsCompleted={todos.isCompleted}
+                handleModal={handleModal}
+              />
+            )
+        )}
       </div>
     </>
   );

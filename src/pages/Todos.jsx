@@ -21,7 +21,7 @@ const Todos = () => {
             className="bg-mainbg rounded-full px-5 py-2 ml-3 text-white"
             onClick={addTodo}
           >
-            Add todo
+            {add ? "Cancel" :"Add Todo"}
           </button>
         </div>
         {add && <AddTodo />}

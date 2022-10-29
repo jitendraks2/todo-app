@@ -4,7 +4,7 @@ import { useState } from "react";
 import { doc, setDoc, Timestamp } from "firebase/firestore";
 import { db } from "../../utils/firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import {Helmet} from "react-helmet-async"
+import { Helmet } from "react-helmet-async";
 const AddTodo = () => {
   const [userID, setUserID] = useState(null);
   const id = nanoid();
@@ -38,7 +38,7 @@ const AddTodo = () => {
 
   return (
     <div>
-           <Helmet>
+      <Helmet>
         <title>Add Todos</title>
       </Helmet>
       <form className=" mt-3" onSubmit={handleSubmit(handleTodos)}>

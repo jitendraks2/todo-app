@@ -4,7 +4,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import {Helmet} from "react-helmet-async"
+import { Helmet } from "react-helmet-async";
 const AccountPage = () => {
   const [userID, setUserID] = useState("");
   const [userEmail, setUserEmail] = useState("");
@@ -56,7 +56,7 @@ const AccountPage = () => {
 
   return (
     <section className="p-4 md:p-9 w-full">
-           <Helmet>
+      <Helmet>
         <title>Account Page</title>
       </Helmet>
       <div className="md:w-[60%] mx-auto bg-mainbg px-10 py-10 text-white rounded-lg">

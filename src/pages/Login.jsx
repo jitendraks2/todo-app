@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../utils/firebase";
@@ -8,25 +8,42 @@ import { AuthContext } from "../context/AuthContext";
 import { Helmet } from "react-helmet-async";
 const Login = () => {
   const navigate = useNavigate();
+  const [error, setError] = useState("");
   const { dispatch } = useContext(AuthContext);
 
   const { register, handleSubmit } = useForm();
 
   const handleLogin = (data) => {
+    setError("");
     // signInWithEmailAndPassword(auth, email, password)
     signInWithEmailAndPassword(auth, data.email, data.password)
       .then((userCredential) => {
         // Signed in
+        setError("");
         const user = userCredential.user;
         dispatch({ type: "LOGIN", payload: user });
         navigate("/todos");
       })
       .catch((error) => {
-        // const errorCode = error.code;
         const errorMessage = error.message;
+        const errorMessageCode = error.code;
         console.log(errorMessage);
-        // setError(true);
-        // ..
+        console.log(errorMessageCode);
+        setError(errorMessage);
+        if (
+          error.message === "Firebase: Error (auth/wrong-password)." ||
+          error.message === "Firebase: Error (auth/user-not-found)."
+        ) {
+          setError("Please check your email/password. ");
+        } else {
+          setError("There has been an error. Please try again later.");
+        }
+
+        if (errorMessageCode === "auth/too-many-requests") {
+          setError("Your account has been suspended. Please try again later.");
+        }
+
+        //
       });
   };
 
@@ -76,6 +93,12 @@ const Login = () => {
         >
           Submit
         </button>
+
+        {error && (
+          <p className="bg-red-500 text-white my-5 px-3 py-2 rounded-lg">
+            {error}
+          </p>
+        )}
 
         <p className="mt-7">
           Not Registered?{" "}

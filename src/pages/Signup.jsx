@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -8,10 +8,10 @@ import { AuthContext } from "../context/AuthContext";
 import { useContext } from "react";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../utils/firebase";
-import {Helmet} from "react-helmet-async"
+import { Helmet } from "react-helmet-async";
 const Signup = () => {
   // const { currentUser } = useContext(AuthContext);
-
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const { dispatch } = useContext(AuthContext);
@@ -19,7 +19,8 @@ const Signup = () => {
   // const userIsLoggedIn = currentUser !== null;
   const { register, handleSubmit } = useForm();
 
-    const handleSignup = async (data) => {
+  const handleSignup = async (data) => {
+    setError("");
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -41,14 +42,18 @@ const Signup = () => {
       const userDetails = userCredential.user;
       dispatch({ type: "SIGNUP", payload: userDetails });
       navigate("/todos");
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      if (error.message === "Firebase: Error (auth/email-already-in-use).") {
+        setError(
+          "Email is already in use. Please use a different email address. "
+        );
+      }
     }
   };
 
   return (
     <div className="w-[90%] md:w-[80%] m-auto bg-mainbg mt-10 text-white rounded-lg h-auto px-5 py-10 flex flex-col items-center justify-center gap-3 md:px-10">
-           <Helmet>
+      <Helmet>
         <title>Signup</title>
       </Helmet>
       <h2 className="text-3xl font-bold mb-4 text-center">
@@ -112,6 +117,12 @@ const Signup = () => {
         >
           Submit
         </button>
+
+        {error && (
+          <p className="bg-red-500 text-white my-5 px-3 py-2 rounded-lg">
+            {error}
+          </p>
+        )}
 
         <p className="mt-7">
           Already Registered?{" "}

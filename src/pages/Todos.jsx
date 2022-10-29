@@ -5,9 +5,7 @@ import { Helmet } from "react-helmet-async";
 const Todos = () => {
   const [add, setAdd] = useState(false);
   const addTodo = () => {
-    console.log("inside handle add");
     setAdd((prev) => !prev);
-    // setAdd(!add);
   };
   return (
     <section className="p-4 md:p-9">
@@ -21,7 +19,7 @@ const Todos = () => {
             className="bg-mainbg rounded-full px-5 py-2 ml-3 text-white"
             onClick={addTodo}
           >
-            {add ? "Cancel" :"Add Todo"}
+            {add ? "Cancel" : "Add Todo"}
           </button>
         </div>
         {add && <AddTodo />}

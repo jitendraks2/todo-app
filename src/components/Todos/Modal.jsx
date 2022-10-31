@@ -2,12 +2,9 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useRef } from "react";
 import { useModalStore } from "../store/modalStore";
 
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, Timestamp, updateDoc } from "firebase/firestore";
 import { db } from "../../utils/firebase";
-
 export default function EditTodoModal(props) {
-
-
   const isOpen = useModalStore((state) => state.isOpen);
 
   const modalClose = useModalStore((state) => state.closeModal);
@@ -27,6 +24,7 @@ export default function EditTodoModal(props) {
     const docRef = await doc(db, props.userId, props.todoId);
     await updateDoc(docRef, {
       todo: todos,
+      createdAt: Timestamp.now(),
     });
     modalClose();
   };
@@ -36,7 +34,6 @@ export default function EditTodoModal(props) {
 
   return (
     <>
-    
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10 " onClose={closeModal}>
           <Transition.Child

@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import AddTodo from "../components/Todos/AddTodo";
-import FetchTodos from "../components/Todos/FetchTodos";
+// import FetchTodos from "../components/Todos/FetchTodos";
 import { Helmet } from "react-helmet-async";
+import Loader from "../components/UI/Loader";
+const FetchTodos = React.lazy(() => import("../components/Todos/FetchTodos"));
+
 const Todos = () => {
   const [add, setAdd] = useState(false);
   const addTodo = () => {
@@ -25,7 +28,9 @@ const Todos = () => {
         {add && <AddTodo />}
       </div>
       {console.log("this is infinte")}
-      <FetchTodos />
+      <Suspense fallback={<Loader mt={10} />}>
+        <FetchTodos />
+      </Suspense>
     </section>
   );
 };

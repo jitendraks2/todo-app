@@ -5,6 +5,7 @@ import { db } from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { Helmet } from "react-helmet-async";
+import Loader from "../components/UI/Loader";
 const AccountPage = () => {
   const [userID, setUserID] = useState("");
   const [userEmail, setUserEmail] = useState("");
@@ -61,7 +62,7 @@ const AccountPage = () => {
       </Helmet>
       <div className="md:w-[60%] mx-auto bg-mainbg px-10 py-10 text-white rounded-lg">
         <h1 className="text-3xl font-bold text-center">Your Account</h1>
-        {!userName && <div className="info mt-10"> Loading... </div>}
+        {!userName && <div className="info mt-10"> {<Loader/>} </div>}
         {userName && (
           <div className="info mt-10">
             <p>

@@ -51,10 +51,14 @@ const FetchTodos = () => {
     setModalData(todo);
     setModalId(todoId);
   };
+  let completedTodosArray = [];
+
+  todos.map((todo) => (todo.isCompleted ? completedTodosArray.push(todo) : ""));
+  console.log("completedTodosArray", completedTodosArray);
   return (
-    // {TODOS.map(todos)=>(<SingleTodo/>)}
     <>
       <EditTodoModal userId={userID} todoId={modalId} todo={modalData} />
+      {""}
       {todos.length !== 0 ? (
         <div className="mt-10">
           <h2 className="text-2xl font-bold">Active Todos</h2>
@@ -72,7 +76,11 @@ const FetchTodos = () => {
               )
           )}
 
-          <h2 className="text-2xl font-bold mt-10">Completed Todos</h2>
+          {completedTodosArray.length === 0 ? (
+            ""
+          ) : (
+            <h2 className="text-2xl font-bold mt-10">Completed Todos</h2>
+          )}
 
           {todos.map(
             (todos) =>
